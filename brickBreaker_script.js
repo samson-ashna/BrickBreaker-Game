@@ -1,14 +1,13 @@
-
-//board
+//BrickBreaker board
 let board;
 let boardWidth = 500;
 let boardHeight = 500;
 let context; 
 
 //players
-let playerWidth = 80; //500 for testing, 80 normal
+let playerWidth = 80;
 let playerHeight = 10;
-let playerVelocityX = 10; //move 10 pixels each time
+let playerVelocityX = 10; //player moves 10 pixels at a time
 
 let player = {
     x : boardWidth/2 - playerWidth/2,
@@ -19,10 +18,10 @@ let player = {
 }
 
 //ball
-let ballWidth = 10;
-let ballHeight = 10;
-let ballVelocityX = 3; //15 for testing, 3 normal
-let ballVelocityY = 2; //10 for testing, 2 normal
+let ballWidth = 12;
+let ballHeight = 8;
+let ballVelocityX = 3;
+let ballVelocityY = 2;
 
 let ball = {
     x : boardWidth/2,
@@ -38,11 +37,11 @@ let blockArray = [];
 let blockWidth = 50;
 let blockHeight = 10;
 let blockColumns = 8; 
-let blockRows = 3; //add more as game goes on
-let blockMaxRows = 10; //limit how many rows
+let blockRows = 5; //add more as game level proceeds
+let blockMaxRows = 10; //limit of the number of rows
 let blockCount = 0;
 
-//starting block corners top left 
+//initial block's top left corner
 let blockX = 15;
 let blockY = 45;
 
@@ -50,10 +49,10 @@ let score = 0;
 let gameOver = false;
 
 window.onload = function() {
-    board = document.getElementById("board");
+    board = document.getElementById("breakerboard"); //same as canvas id from brickBreaker_index
     board.height = boardHeight;
     board.width = boardWidth;
-    context = board.getContext("2d"); //used for drawing on the board
+    context = board.getContext("2d"); //used to draw on the breakerboard
 
     //draw initial player
     context.fillStyle="dodgerblue";
@@ -74,12 +73,12 @@ function update() {
     }
     context.clearRect(0, 0, board.width, board.height);
 
-    // player
+    //player
     context.fillStyle = "blueviolet";
     context.fillRect(player.x, player.y, player.width, player.height);
 
-    // ball
-    context.fillStyle = "white";
+    //ball
+    context.fillStyle = "darkcyan";
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
     context.fillRect(ball.x, ball.y, ball.width, ball.height);
@@ -115,13 +114,13 @@ function update() {
             if (topCollision(ball, block) || bottomCollision(ball, block)) {
                 block.break = true;     // block is broken
                 ball.velocityY *= -1;   // flip y direction up or down
-                score += 100;
+                score += 10;
                 blockCount -= 1;
             }
             else if (leftCollision(ball, block) || rightCollision(ball, block)) {
                 block.break = true;     // block is broken
                 ball.velocityX *= -1;   // flip x direction left or right
-                score += 100;
+                score += 10;
                 blockCount -= 1;
             }
             context.fillRect(block.x, block.y, block.width, block.height);
@@ -130,7 +129,7 @@ function update() {
 
     //next level
     if (blockCount == 0) {
-        score += 100*blockRows*blockColumns; //bonus points :)
+        score += 10*blockRows*blockColumns; //bonus points :)
         blockRows = Math.min(blockRows + 1, blockMaxRows);
         createBlocks();
     }
