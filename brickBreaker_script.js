@@ -228,7 +228,7 @@ function resetGame() {
         velocityY : ballVelocityY
     }
     blockArray = [];
-    blockRows = 3;
+    blockRows = 5; //there will always be 5 rows every time the game resets
     score = 0;
     createBlocks();
 }
