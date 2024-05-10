@@ -81,7 +81,10 @@ function update() {
     context.fillStyle = "darkcyan";
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
-    context.fillRect(ball.x, ball.y, ball.width, ball.height);
+    context.beginPath();
+    context.arc(ball.x + ball.width / 2, ball.y + ball.height / 2, ball.width / 2, 0, 2 * Math.PI);
+    context.fill();
+    context.closePath();
 
     //bounce the ball off player paddle
     if (topCollision(ball, player) || bottomCollision(ball, player)) {
